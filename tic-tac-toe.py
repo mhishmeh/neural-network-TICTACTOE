@@ -97,6 +97,17 @@ def getPlayer2Move():
                 print('sorry, spot is taken! Try again:')
     showBoard(board)
 
+def getAIMove():
+    aiChoices = []
+    for row in range(3):
+        for col in range(3):
+            if board[row][col] == ' ':
+                aiChoices.append((row,col))
+
+    row, col = random.choice(aiChoices)
+    board[row][col] = player2Symbol
+    showBoard(board)
+
 
 def checkWinner():
     for row in board: # check rows
@@ -131,7 +142,7 @@ def playGame():
         if checkWinner():
             break
 
-        getPlayer2Move()
+        getAIMove()
         count += 1
       
         if checkWinner():
