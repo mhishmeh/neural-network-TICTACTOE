@@ -18,6 +18,8 @@ def showBoard(board):
 
 showBoard(board)
 
+# heyy hows it going
+
 time.sleep(.5)
 
 
