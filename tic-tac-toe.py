@@ -47,6 +47,8 @@ def isSpotTaken(board, row, column):
         return True
     return False
 
+
+
 def getPlayer1Move():
     needInput = True
     
@@ -75,6 +77,8 @@ def getPlayer2Move():
     
     while (needInput):
          userInput = int(input('PLayer Two: Please place a move on the board! enter a numebr 1 thru 9: '))
+         if type(userInput) != int:
+            print('dumbass, obviously you need to enter a number please. TRY AGAIN YOU can do it. you can be somebody in this')
          if userInput < 1 or userInput > 9:
             print('sorry, try again 1 through 9: ')
          else:
@@ -95,14 +99,44 @@ def getPlayer2Move():
 
 
 def checkWinner():
-    for item in board:
-        pass
+    for row in board: # check rows
+        if row[0] == row[1] and  row[0] == row[2] and row[0] != ' ':
+            print('Congrats! '+ row[0] + ' Player has won!')
+            return True
+
+    for col in range(3): # columns
+        if board[0][col] == board[1][col] and board[1][col] == board[2][col] and board[0][col] != ' ':
+            print('fuck you fucking won bro.')
+            return True
+
+    
+    if board[0][0] == board[1][1] and board[0][0] == board[2][2] and board[0][0] != ' ':
+        print('haha nice bro! ' + board[0][0] + ' has won!' )
+        return True
+    if board[0][2] == board[1][1] and board[0][2] == board[2][0] and board[0][2] != ' ':
+        print("ahhh man shit! ya GGOT ME!" + board[2][0] + ' has won!')
+        return True
+        
 
 def playGame():
-    while True:
-
+    count = 0
+    gameState = True
+    while gameState:
+        if count == 9:
+            print('ahhhh! scratch. play again')
+            break
         getPlayer1Move()
+        count += 1
+    
+        if checkWinner():
+            break
+
         getPlayer2Move()
+        count += 1
+      
+        if checkWinner():
+            break
+        
 
 playGame()
 print(history)
