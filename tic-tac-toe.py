@@ -7,6 +7,7 @@ board = [
     [' ', ' ', ' '],
     [' ', ' ', ' ']
 ]
+history = []
 
 
 def showBoard(board):
@@ -16,7 +17,10 @@ def showBoard(board):
 
 
 showBoard(board)
+
 time.sleep(.5)
+
+
 def definePlayers():
     global player1Symbol, player2Symbol
     symbol = random.randint(0,1)
@@ -29,34 +33,75 @@ def definePlayers():
 
 definePlayers()
 
+
+def saveBoardState(board, history):
+    newBoard = [row[:] for row in board]  # Creates a deep copy of the board
+    history.append(newBoard)  # Store this new snapshot in history
+
+
+
+
+def isSpotTaken(board, row, column):
+    if board[row][column] != ' ':
+        return True
+    return False
+
 def getPlayer1Move():
     needInput = True
-    userInput = int(input('Please place a move on the board! enter a numebr 1 thru 9: '))
+    
     while (needInput):
+         userInput = int(input('PLayer One: Please place a move on the board! enter a numebr 1 thru 9: '))
          if userInput < 1 or userInput > 9:
             print('sorry, try again 1 through 9: ')
          else:
-            needInput = False
-            break
-    else:
-        if userInput == 1:
-            board[0][0] = player1Symbol
-        if userInput == 2:
-            board[0][1] = player1Symbol
-        if userInput == 3:
-            board[0][2] = player1Symbol
-        if userInput == 4:
-            board[1][0] = player1Symbol
-        if userInput == 5:
-            board[1][1] = player1Symbol
-        if userInput == 6:
-            board[1][2] = player1Symbol
-        if userInput == 7:
-            board[2][0] = player1Symbol
-        if userInput == 8:
-            board[2][1] = player1Symbol
-        if userInput == 9:
-            board[2][2] = player1Symbol
+  
+            positions = [
+                    (0, 0), (0, 1), (0, 2),
+                    (1, 0), (1, 1), (1, 2),
+                    (2, 0), (2, 1), (2, 2)
+            ]
+            row, col = positions[userInput - 1]  # Get the correct row and column from the list 
+            if isSpotTaken(board,row,col) == False:
+                board[row][col] = player1Symbol
+                saveBoardState(board, history)
+                needInput = False
+            else:
+                print('sorry, spot is taken! Try again:')
     showBoard(board)
 
-getPlayer1Move()
+def getPlayer2Move():
+    needInput = True
+    
+    while (needInput):
+         userInput = int(input('PLayer Two: Please place a move on the board! enter a numebr 1 thru 9: '))
+         if userInput < 1 or userInput > 9:
+            print('sorry, try again 1 through 9: ')
+         else:
+  
+            positions = [
+                    (0, 0), (0, 1), (0, 2),
+                    (1, 0), (1, 1), (1, 2),
+                    (2, 0), (2, 1), (2, 2)
+            ]
+            row, col = positions[userInput - 1]  # Get the correct row and column from the list 
+            if isSpotTaken(board,row,col) == False:
+                board[row][col] = player2Symbol
+                saveBoardState(board, history)
+                needInput = False
+            else:
+                print('sorry, spot is taken! Try again:')
+    showBoard(board)
+
+
+def checkWinner():
+    for item in board:
+        pass
+
+def playGame():
+    while True:
+
+        getPlayer1Move()
+        getPlayer2Move()
+
+playGame()
+print(history)
